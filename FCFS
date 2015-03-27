@@ -1,0 +1,57 @@
+#include<stdio.h>
+#include<iostream>
+using namespace std;
+
+int n,burst[100],waiting[100],trun_around[100],i,j;
+int main()
+{
+    double avr_trun_around=0,avr_waiting=0,add=0;
+    cout<<"Enter total number of processes:";
+    cin>>n;
+    cout<<"\nEnter Process Burst Time\n";
+    for(i=0;i<n;i++)
+    {
+        cin>>burst[i];
+        add+=burst[i];
+    }
+    waiting[0]=0;
+    for(i=1;i<n;i++)
+    {
+        waiting[i]=0;
+        for(j=0;j<i;j++)
+        {
+            waiting[i]=waiting[i]+burst[j];
+        }
+    }
+
+    printf("\nProcess\t\tBurst Time\tWaiting Time\tTurnaround Time");
+    for(i=0;i<n;i++)
+    {
+        trun_around[i]=burst[i]+waiting[i];
+        avr_waiting=avr_waiting+waiting[i];
+        avr_trun_around=avr_trun_around+trun_around[i];
+        printf("\nP[%d]\t\t%d\t\t%d\t\t%d",i+1,burst[i],waiting[i],trun_around[i]);
+    }
+
+    cout<<"\n\nAverage Waiting Time:"<<avr_waiting/i<<endl;
+    cout<<"\nAverage Turnaround Time:"<<avr_trun_around/i<<endl;
+    cout<<"\nThroughput:"<<i/add<<endl;
+    cout<<"\nGantt Chart"<<endl;
+	printf("\n----------------------------------------------\n");
+	for(i=0;i<n;i++)
+    {
+        printf("|\t%d",i+1);
+    }
+	printf("|\t\n");
+	printf("\n-----------------------------------------------\n");
+	printf("\n");
+	for(i=0;i<n;i++)
+    {
+        printf("%d\t",waiting[i]);
+    }
+    cout<<add;
+	printf("\n------------------------------------------------\n");
+	printf("\n");
+
+    return 0;
+}
